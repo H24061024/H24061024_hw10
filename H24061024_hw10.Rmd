@@ -1,0 +1,443 @@
+---
+title: "H24061024_hw10"
+output: html_document
+---
+```{r}
+1+1 
+3-5 
+4*6 
+12/4 
+3^4 
+31%%7 
+31%/%7 
+``` 
+#Elements storage 
+##vector 
+###use ***c()*** function to collect a list of numbers into a vector
+```{r}
+x<-c(5,7,8) 
+x 
+``` 
+###vectors can be joined together 
+```{r}
+y<-c(x,6:1)
+y
+``` 
+###extract elements from vectors 
+```{r}
+y[5]
+y[c(1,3,5)]
+y[-2]
+y[-(3:5)]
+``` 
+###vector arithmetic 
+```{r}
+z<-x-4
+z
+``` 
+```{r}
+z*2
+z^2
+x^z
+y%%2:4
+``` 
+###simple patterned vectors 
+```{r}
+seq(1,9,by=2)
+rep(3,5)
+rep(seq(2,6,2),2)
+rep(c(1,4),c(3,2))
+rep(c(1,2,4),each=3)
+``` 
+###missing values and other special values 
+the missing value symbol is ***NA*** 
+```{r}
+evens<-NULL
+evens[seq(2,10,2)]<-seq(2,10,2)
+evens
+``` 
+a value which is "not a number" is ***NAN***,usually 0/0
+```{r}
+x<-c(0,7,8)
+x/x
+``` 
+***Inf***,usually 1/0 
+```{r}
+1/x
+``` 
+***numeric(0)*** is a numeric vector of length 0 
+```{r}
+x[0.4]
+x[1.8]
+``` 
+###character vector 
+```{r}
+x<-c("red","yellow","blue")
+y<-c(x,"green")
+y
+``` 
+an attempt to mix data types in a vector will lead to a result that numbers will be converted to the character type 
+```{r}
+z<-c(y,1)
+z
+``` 
+to take substrings,use ***substr(x,start,stop)*** 
+```{r}
+substr(z,2,4)
+``` 
+to concatenate characters 
+```{r}
+paste(x," flower","s",sep="")
+``` 
+***collapse*** parameter allows all the components of the resulting vector to be collapsed into a single string 
+```{r}
+paste(x," flowers",collapse=", ")
+``` 
+###factors and levels 
+```{r}
+x<-c("control","treatment","control","test","treatment")
+y<-factor(x)
+y
+``` 
+to see the levels 
+```{r}
+levels(y)
+``` 
+to see how the levels coded 
+```{r}
+as.integer(y)
+``` 
+the original data can be rewrite as 
+```{r}
+levels(y)[as.integer(y)]
+``` 
+###other 
+to detect where are missing values 
+```{r}
+is.na(evens)
+``` 
+##matrix 
+```{r}
+m<-matrix(1:6,nrow=2,ncol=3)
+m
+m[1,2]
+m[5]
+m[1,]
+m[,1]
+``` 
+##array 
+```{r}
+a<-array(1:24,c(3,4,2))
+``` 
+##data frame 
+```{r}
+colors<-c("red","yellow","blue","green")
+numbers<-c(1,2,3,4)
+c.a.n<-data.frame(colors,numbers,more.n=5:8)
+c.a.n
+``` 
+
+#Plot statistical graphics 
+##high-level 
+###barchart
+```{r}
+barplot(VADeaths)
+```
+
+###dotchart 
+```{r}
+dotchart(VADeaths)
+```
+ 
+###piechart
+```{r}
+pie(VADeaths)
+```
+ 
+###histogram
+```{r}
+hist(VADeaths)
+```
+ 
+###box plot
+```{r}
+boxplot(VADeaths)
+```
+ 
+###scatterplot  
+```{r}  
+plot(VADeaths)  
+```  
+ 
+###Normal
+
+***rnorm(n,mean,sd)*** 
+```{r}
+rnorm(10, -3, 0.5)
+```
+###QQplot
+```{r}
+#qqplot(VADeaths)
+X <- rnorm(1000)
+A <- rnorm(1000)
+qqplot(X, A, main="A and X are the same")
+B <- rnorm(1000, mean=3, sd=2)
+qqplot(X, B, main="B is rescaled X")
+C <- rt(1000, df=2)
+qqplot(X, C, main="C has heavier tails")
+D <- exp(rnorm(1000))
+qqplot(X, D, main="D is skewed to the right")
+```
+
+##low-level 
+###add points
+$$
+#Plot statistical graphics 
+##high-level 
+###curve 
+```{r}
+curve(expr=sin,from=0,to=6*pi)
+```
+ 
+###barchart 
+```{r}
+barplot(VADeaths)
+```
+ 
+###dotchart 
+```{r}
+dotchart(VADeaths)
+```
+ 
+###piechart 
+```{r}
+pie(VADeaths)
+```
+ 
+###histogram 
+```{r}
+hist(VADeaths)
+```
+ 
+###box plot 
+```{r}
+boxplot(VADeaths)
+```
+ 
+###scatterplot 
+```{r}
+plot(VADeaths)
+```
+ 
+###QQplot 
+```{r}
+x<-rnorm(1000)
+y<-rnorm(1000)
+qqplot(x,y,main="X and Y are the same")
+```
+ 
+##low-level 
+* points(x,y,...) **adds points**
+
+* lines(x,y,...) **adds line segments**
+
+* text(x,y,labels,..) **adds text into the graph**
+
+* abline(a,b,...) **adds the line y=ax+b**
+
+* abline(h=y,...) **adds a horizontal line**
+
+* abline(v=x,...) **adds a vertical line**
+
+* polygon(x,y,...) **adds a polygon**
+
+* segments(x0,y0,x1,y1,...) **draws line segments**
+
+* arrows(x0,y0,x1,y1,...) **draws arrows**
+
+* symbols(x,y,...) **draws circles,squares,...**
+
+* legend(x,y,legend,...) **draws a legend**
+
+* title(main,sub,xlab,ylab,...) **adds a main title, a sub-title, an x-axis label and a y-axis label**
+
+* mtext(text,side,line,...) **draws text in the margins**
+
+* axis(side,at,labels,...) **adds an axis to the plot**
+
+* box(...) **adds a box around the plot region**
+
+```{r}
+par(mar=c(5,5,5,5)+0.1)
+plot(c(1,9),c(0,50),type="n",xlab="",ylab="")
+text(6,40,"Plot Region")
+points(6,20)
+text(6,20,"(6,20)",adj=c(0.5,2))
+mtext(paste("Margin",1:4),side=1:4,line=3)
+mtext(paste("Line",0:4),side=1,line=0:4,at=3,cex=0.6)
+mtext(paste("Line",0:4),side=2,line=0:4,at=15,cex=0.6)
+mtext(paste("Line",0:4),side=3,line=0:4,at=3,cex=0.6)
+mtext(paste("Line",0:4),side=4,line=0:4,at=15,cex=0.6)
+
+```
+
+###Simulation of other random variables 
+```{r}
+set.seed(23207) # use this to obtain our output
+guesses <- runif(20)
+correct.answers <- (guesses < 0.2)
+correct.answers
+table(correct.answers)
+```
+
+###Binomial random variables
+
+***dbinom(x, size, prob)***
+
+***P(X = 4) = 0.234, when X is a binomial random variable with m = 6 and p = 0.5.***
+```{r}
+dbinom(x = 4, size = 6, prob = 0.5)
+``` 
+***Pbinom(x,size,prob)*** 
+
+***P(X <= 4) = 0.890, where X is the number of heads obtained in six tosses of a fair coin as***
+```{r}
+pbinom(4, 6, 0.5)
+``` 
+***The function qbinom() gives the quantiles for the binomial distribution.The 89th percentile of the distribution of X (as defined above) is***
+```{r}
+qbinom(0.89,6,0.5)
+``` 
+###rbinom 
+***rbinom(n, size, prob)*** 
+***Here, size and prob are the binomial parameters, while n is the number of variates generated.***
+```{r}
+defectives <- rbinom(24, 15, 0.1)
+defectives
+```
+###Poisson random variables
+***dpois(x, lambda)***
+***Here, lambda is the Poisson rate parameter, while x is the number of Poisson events. The output from the function is the value of P(X = x).***
+```{r}
+dpois(x = 3, lambda = 0.5)
+``` 
+***rpois(n, lambda)***
+***The parameter n is the number of variates produced, and lambda is as above.***
+```{r}
+rpois(10, 3.7)
+```
+###Exponential random numbers
+***pexp(q, rate)***
+***The output from this is the value of P(T ≤ q), where T is an exponential random variable with parameter rate.***
+```{r}
+pexp(1, rate = 3)
+```
+***The R function rexp() can be used to generate n random exponential variates.***
+***rexp(n, rate)***
+```{r}
+servicetimes <- rexp(10, rate = 3)
+servicetimes
+```
+
+###Matrix 
+
+***matrix(data,nrow,ncol)*** 
+```{r}
+H3 <- matrix(c(1, 1/2, 1/3, 1/2, 1/3, 1/4, 1/3, 1/4, 1/5), nrow=3)
+H3
+```
+***cbind(d1, d2, ..., dm)*** 
+***rbind(d1, d2, ..., dn)***
+```{r}
+x=matrix(seq(1,6),nrow=3)
+x
+y=matrix(seq(7,9),nrow=3)
+y
+a=matrix(seq(9,7),ncol=3)
+a
+b=matrix(seq(6,1),ncol=3)
+b
+cbind(x,y)
+```
+***cbind(a,b) error*** 
+
+***rbind(x,y) error***
+```{r}
+rbind(a,b)
+``` 
+###Name of row(column) 
+
+***rownames(matrix)=(row_name)***
+***colnames(matrix)=(column_name)***
+```{r}
+A=matrix(c(1,2,3,4,5,6,7,8,9),nrow=3)
+rownames(A)=c("first","second","third")
+colnames(A)=c("I","II","III")
+A
+``` 
+###Inverse matrix 
+
+***solve(matrix)*** 
+```{r}
+x=matrix(c(1,4,2,3),nrow=2)
+x
+solve(x)
+``` 
+###Matrix multiplication and inversion
+***matrix*matrix isn't the answer we want.As it will like***
+```{r}
+a=matrix(c(1,2,3,4),ncol=2)
+b=matrix(c(1,4,9,16),ncol=2)
+a
+b
+a*b
+```
+***matrix%*%matrix is what we want***
+```{r}
+a%*%b
+``` 
+###Eigenvalues and eigenvectors 
+
+***eigen(matrix) to show eigen vector&value. Use $vectors or $values to show the one you want*** 
+```{r}
+ans=eigen(a)
+ans
+ans=(eigen(a)$vectors)
+ans
+```
+#Programming 
+##the ***for()*** loop 
+***for(name){command}***
+```{r}
+Fibonacci<-numeric(12)
+Fibonacci[1]<-Fibonacci[2]<-1
+for (i in 3:12){
+  Fibonacci[i]<-Fibonacci[i-2]+Fibonacci[i-1]
+}
+Fibonacci
+``` 
+##the ***if()*** statement 
+***if (conditon){commands when TRUE}else{commands when FALSE}***
+```{r}
+x<-3
+if (x>2){
+  y<-2*x
+}else{
+  y<-3*x
+}
+y
+``` 
+##the ***while()*** loop 
+***while(conditon){statements}***
+```{r}
+Fib1<-1
+Fib2<-1
+Fibonacci<-c(Fib1,Fib2)
+while (Fib2<300){
+  Fibonacci<-c(Fibonacci,Fib2)
+  oldFib2<-Fib2
+  Fib2<-Fib1+Fib2
+  Fib1<-oldFib2
+}
+Fibonacci
+``` 
